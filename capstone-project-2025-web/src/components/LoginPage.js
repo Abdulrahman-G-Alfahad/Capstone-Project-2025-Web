@@ -27,11 +27,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#1a202c]">
+    <div className="flex items-center justify-center min-h-screen bg-[#1F1D35]">
       <div className="w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg">
         <h1 className="mb-4 text-2xl font-semibold text-center">LOGO</h1>
         <h2 className="text-lg font-medium text-center text-gray-600">
-          Welcome Back, Please login
+          Welcome Back Please login
         </h2>
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
@@ -74,7 +74,7 @@ export default function LoginPage() {
           <div className="text-right">
             <a
               href="#"
-              className="text-sm text-blue-500 hover:underline focus:outline-none"
+              className="text-sm text-gray-600 hover:underline focus:outline-none"
             >
               Forgot password?
             </a>
@@ -82,7 +82,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 text-white bg-pink-500 rounded-lg hover:bg-pink-600 focus:outline-none focus:ring focus:ring-pink-300"
+            className="w-full px-4 py-2 text-white bg-[#FF3A79] rounded-lg hover:bg-[#FF3366] focus:outline-none focus:ring focus:ring-pink-300"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
@@ -91,7 +91,7 @@ export default function LoginPage() {
           Don’t have an account?{" "}
           <a
             href="/register"
-            className="text-blue-500 hover:underline focus:outline-none"
+            className="text-gray-600 hover:underline focus:outline-none"
           >
             Register here
           </a>
