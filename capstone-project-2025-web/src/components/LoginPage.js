@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { login } from "@/actions/auth";
 
-export default function LoginPage() {
+export default function LoginPage({ switchPage }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -16,11 +15,15 @@ export default function LoginPage() {
     setLoading(true);
     setErrorMessage("");
 
-    const success = await login({ username, password });
+    // Simulating an API call for login authentication
+    const response = await new Promise((resolve) =>
+      setTimeout(() => resolve({ success: true }), 1000)
+    );
+
     setLoading(false);
 
-    if (success) {
-      router.push("/dashboard"); // Adjust this as needed
+    if (response.success) {
+      router.push("/dashboard"); // Redirect to dashboard
     } else {
       setErrorMessage("Invalid login credentials. Please try again.");
     }
@@ -31,70 +34,52 @@ export default function LoginPage() {
       <div className="w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg">
         <h1 className="mb-4 text-2xl font-semibold text-center">LOGO</h1>
         <h2 className="text-lg font-medium text-center text-gray-600">
-          Welcome Back Please login
+          Welcome Back, Please login
         </h2>
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label className="block text-sm font-medium text-gray-700">
               Username
             </label>
             <input
               type="text"
-              id="username"
-              name="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full px-4 py-2 mt-2 text-sm border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-4 py-2 mt-2 border rounded-lg text-black"
             />
           </div>
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <input
               type="password"
-              id="password"
-              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2 mt-2 text-sm border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-4 py-2 mt-2 border rounded-lg text-black"
             />
           </div>
           {errorMessage && (
             <p className="text-sm text-red-500">{errorMessage}</p>
           )}
-          <div className="text-right">
-            <a
-              href="#"
-              className="text-sm text-gray-600 hover:underline focus:outline-none"
-            >
-              Forgot password?
-            </a>
-          </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 text-white bg-[#FF3A79] rounded-lg hover:bg-[#FF3366] focus:outline-none focus:ring focus:ring-pink-300"
+            className="w-full px-4 py-2 text-white bg-[#FF3A79] rounded-lg hover:bg-[#FF3366]"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <p className="mt-4 text-sm text-center text-gray-600">
           Don’t have an account?{" "}
-          <a
-            href="/register"
-            className="text-gray-600 hover:underline focus:outline-none"
+          <span
+            onClick={switchPage}
+            className="text-blue-500 cursor-pointer hover:underline"
           >
             Register here
-          </a>
+          </span>
         </p>
       </div>
     </div>

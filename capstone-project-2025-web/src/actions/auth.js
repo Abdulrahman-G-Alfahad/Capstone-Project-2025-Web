@@ -29,9 +29,9 @@ export async function login(data) {
     return false;
   }
 }
-export async function signup(data) {
+export async function SignupPage(data) {
   try {
-    const response = await fetch(`${baseUrl}/auth/signup`, {
+    const response = await fetch(`${baseUrl}/auth/SignupPage`, {
       method: "POST",
       headers: await getHeaders({ auth: false }),
       body: JSON.stringify(data),
