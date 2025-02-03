@@ -23,7 +23,7 @@ export default function LoginPage({ switchPage }) {
     setLoading(false);
 
     if (response.success) {
-      router.push("/dashboard"); // Redirect to dashboard
+      switchPage("dashboard"); // Redirect to dashboard
     } else {
       setErrorMessage("Invalid login credentials. Please try again.");
     }
@@ -75,7 +75,7 @@ export default function LoginPage({ switchPage }) {
         <p className="mt-4 text-sm text-center text-gray-600">
           Don’t have an account?{" "}
           <span
-            onClick={switchPage}
+            onClick={() => switchPage("signup")}
             className="text-blue-500 cursor-pointer hover:underline"
           >
             Register here

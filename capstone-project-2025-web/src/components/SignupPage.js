@@ -32,8 +32,9 @@ export default function SignUp({ switchPage }) {
           Welcome, sign up here
         </h2>
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          {/* Form Fields */}
           <div>
-            <label className="block text-sm font-medium text-black">
+          <label className="block text-sm font-medium text-black">
               Full Name
             </label>
             <input
@@ -128,6 +129,7 @@ export default function SignUp({ switchPage }) {
               className="w-full px-4 py-2 mt-2 border rounded-lg text-black"
             />
           </div>
+          {/* Other Fields */}
           <button
             type="submit"
             disabled={loading}

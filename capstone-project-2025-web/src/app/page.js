@@ -11,10 +11,10 @@ export default function Home() {
   return (
     <div>
       {currentPage === "login" && (
-        <LoginPage switchPage={() => setCurrentPage("signup")} />
+        <LoginPage switchPage={(page) => setCurrentPage(page)} />
       )}
       {currentPage === "signup" && (
-        <SignupPage switchPage={() => setCurrentPage("dashboard")} />
+        <SignupPage switchPage={(page) => setCurrentPage(page)} />
       )}
       {currentPage === "dashboard" && <Dashboard />}
     </div>
