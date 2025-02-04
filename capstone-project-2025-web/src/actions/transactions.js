@@ -5,7 +5,7 @@ import { baseUrl, getHeaders } from "./config";
 export async function getTransactions() {
   try {
     const response = await fetch(`${baseUrl}/business/profile/5/transactions`, {
-      method: "GET", 
+      method: "GET",
       headers: await getHeaders({ auth: true }),
     });
 
@@ -17,6 +17,6 @@ export async function getTransactions() {
     return Array.isArray(data) ? data : []; //returns an array
   } catch (error) {
     console.error("Error fetching transactions:", error);
-    return []; 
+    return [];
   }
 }
