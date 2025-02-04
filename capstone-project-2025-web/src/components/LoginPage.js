@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { login } from "../actions/auth"; 
 
 export default function LoginPage({ switchPage }) {
   const [username, setUsername] = useState("");
@@ -15,15 +16,11 @@ export default function LoginPage({ switchPage }) {
     setLoading(true);
     setErrorMessage("");
 
-    // Simulating an API call for login authentication
-    const response = await new Promise((resolve) =>
-      setTimeout(() => resolve({ success: true }), 1000)
-    );
-
+    const success = await login({ username, password });
     setLoading(false);
 
-    if (response.success) {
-      switchPage("dashboard"); // Redirect to dashboard
+    if (success) {
+      switchPage("dashboard"); 
     } else {
       setErrorMessage("Invalid login credentials. Please try again.");
     }

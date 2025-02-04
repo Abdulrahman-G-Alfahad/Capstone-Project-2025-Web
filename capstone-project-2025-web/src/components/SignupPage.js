@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { signup } from "../actions/auth"; 
 
 export default function SignUp({ switchPage }) {
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [companyName, setCompanyName] = useState("");
   const [address, setAddress] = useState("");
   const [businessId, setBusinessId] = useState("");
   const [bankAccount, setBankAccount] = useState("");
@@ -17,11 +17,24 @@ export default function SignUp({ switchPage }) {
     e.preventDefault();
     setLoading(true);
 
-    // Simulating API call
-    setTimeout(() => {
-      setLoading(false);
+    const userData = {
+      username,
+      name,
+      email,
+      password,
+      address,
+      businessId,
+      bankAccount,
+    };
+
+    const success = await signup(userData);
+    setLoading(false);
+
+    if (success) {
       switchPage("dashboard"); // Redirect to dashboard after signup
-    }, 1000);
+    } else {
+      alert("Signup failed. Please try again.");
+    }
   };
 
   return (
@@ -34,13 +47,23 @@ export default function SignUp({ switchPage }) {
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           {/* Form Fields */}
           <div>
-          <label className="block text-sm font-medium text-black">
-              Full Name
+            <label className="block text-sm font-medium text-black">
+              username
             </label>
             <input
               type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="w-full px-4 py-2 mt-2 border rounded-lg text-black"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-black">name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
               className="w-full px-4 py-2 mt-2 border rounded-lg text-black"
             />
@@ -69,30 +92,7 @@ export default function SignUp({ switchPage }) {
               className="w-full px-4 py-2 mt-2 border rounded-lg text-black"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-black">
-              Phone Number
-            </label>
-            <input
-              type="text"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              required
-              className="w-full px-4 py-2 mt-2 border rounded-lg text-black"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-black">
-              Company Name
-            </label>
-            <input
-              type="text"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-              required
-              className="w-full px-4 py-2 mt-2 border rounded-lg text-black"
-            />
-          </div>
+
           <div>
             <label className="block text-sm font-medium text-black">
               Address
@@ -129,7 +129,6 @@ export default function SignUp({ switchPage }) {
               className="w-full px-4 py-2 mt-2 border rounded-lg text-black"
             />
           </div>
-          {/* Other Fields */}
           <button
             type="submit"
             disabled={loading}
