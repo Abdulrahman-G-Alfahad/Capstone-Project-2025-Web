@@ -16,7 +16,9 @@ export default function Home() {
       {currentPage === "signup" && (
         <SignupPage switchPage={(page) => setCurrentPage(page)} />
       )}
-      {currentPage === "dashboard" && <Dashboard />}
+      {currentPage === "dashboard" && (
+        <Dashboard switchPage={(page) => setCurrentPage(page)} />
+      )}
     </div>
   );
 }

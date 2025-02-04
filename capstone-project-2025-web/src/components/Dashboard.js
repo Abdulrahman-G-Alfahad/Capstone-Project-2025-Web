@@ -1,40 +1,38 @@
 "use client";
 
-import { useState } from "react";
-import { Search, Grid, User, Wifi, Settings, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, Grid, Settings, LogOut } from "lucide-react";
+import { logout } from "../actions/auth";
+import { getTransactions } from "../actions/transactions"; 
 
-const transactions = [
-  {
-    name: "Ahmed Abdullah",
-    location: "Kaifan",
-    amount: "15KD",
-    status: "Success",
-  },
-  {
-    name: "Abdullah Mohammmmed",
-    location: "Kaifan",
-    amount: "10KD",
-    status: "Failed",
-  },
-  {
-    name: "Noura Mohammed",
-    location: "Kaifan",
-    amount: "15KD",
-    status: "Success",
-  },
-  {
-    name: "Fatma Abdullah",
-    location: "Kaifan",
-    amount: "30KD",
-    status: "Success",
-  },
-];
-
-export default function Dashboard() {
+export default function Dashboard({ switchPage }) {
   const [search, setSearch] = useState("");
+  const [transactions, setTransactions] = useState([]); 
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const data = await getTransactions();
+        setTransactions(Array.isArray(data) ? data : []); //make sure it's an array
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+        setTransactions([]); 
+      }
+    };
+    fetchTransactions();
+  }, []);
+
+  const handleLogout = async () => {
+    const success = await logout();
+    if (success) {
+      switchPage("login");
+    } else {
+      alert("Logout failed. Please try again.");
+    }
+  };
 
   const filteredTransactions = transactions.filter((t) =>
-    t.name.toLowerCase().includes(search.toLowerCase())
+    t?.name?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -48,23 +46,18 @@ export default function Dashboard() {
                 <Grid className="w-5 h-5 mr-3" />
                 <span>Dashboard</span>
               </li>
-              <li className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg mx-4">
-                <User className="w-5 h-5 mr-3" />
-                <span>Face ID Users</span>
-              </li>
-              <li className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg mx-4">
-                <Wifi className="w-5 h-5 mr-3" />
-                <span>NFC Users</span>
-              </li>
-              <li className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg mx-4">
-                <Settings className="w-5 h-5 mr-3" />
-                <span>Settings</span>
-              </li>
             </ul>
           </nav>
         </div>
         <div className="mb-6 px-4">
           <div className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg">
+            <Settings className="w-5 h-5 mr-3" />
+            <span>Settings</span>
+          </div>
+          <div
+            className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg"
+            onClick={handleLogout}
+          >
             <LogOut className="w-5 h-5 mr-3" />
             <span>Log out</span>
           </div>

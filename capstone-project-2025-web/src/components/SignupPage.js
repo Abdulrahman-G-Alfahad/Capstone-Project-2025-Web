@@ -31,7 +31,7 @@ export default function SignUp({ switchPage }) {
     setLoading(false);
 
     if (success) {
-      switchPage("dashboard"); // Redirect to dashboard after signup
+      switchPage("dashboard"); // redirect to dashboard after signup
     } else {
       alert("Signup failed. Please try again.");
     }

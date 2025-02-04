@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { baseUrl, getHeaders } from "./config";
 import { deleteToken, setToken } from "./token";
 
@@ -38,7 +37,7 @@ export async function login(data) {
  * @param {Object} data - The signup data (full name, email, password, etc.).
  */
 export async function signup(data) {
-  console.log(data)
+  console.log(data);
   try {
     const response = await fetch(`${baseUrl}/auth/signup`, {
       method: "POST",
@@ -73,9 +72,13 @@ export async function signup(data) {
  */
 export async function logout() {
   try {
-    await deleteToken(); // Clear token from storage
-    redirect("/"); // Redirect to the home page
+    // Clear the authentication token
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("authToken");
+    }
+    return true;
   } catch (error) {
-    console.error("Logout Error:", error.message);
+    console.error("Logout Error:", error);
+    return false;
   }
 }
