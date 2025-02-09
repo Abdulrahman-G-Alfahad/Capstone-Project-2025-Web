@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Search, Grid, Settings, LogOut } from "lucide-react";
 import { logout } from "../actions/auth";
 import { getTransactions } from "../actions/transactions";
+import { getBusinessBranches } from "../actions/branches";
 import {
   BarChart,
   Bar,
@@ -18,9 +19,6 @@ export default function Dashboard({ switchPage }) {
   const [search, setSearch] = useState("");
   const [transactions, setTransactions] = useState([]);
   const [Branches, setBranches] = useState([
-    { id: 1, name: "Kaifan" },
-    { id: 2, name: "Abdulla Mubark" },
-    { id: 3, name: "5th Ring Road" },
   ]);
 
   const weeklyData = [
@@ -44,6 +42,19 @@ export default function Dashboard({ switchPage }) {
       }
     };
     fetchTransactions();
+  }, []);
+
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const data = await getBusinessBranches(1);
+        setBranches(Array.isArray(data.branchList) ? data.branchList : []);
+      } catch (error) {
+        console.error("Error fetching branches:", error);
+        setBranches([]);
+      }
+    };
+    fetchBranches();
   }, []);
 
   const handleLogout = async () => {
@@ -120,73 +131,32 @@ export default function Dashboard({ switchPage }) {
         <main className="flex flex-1 gap-6 flex-wrap">
           {/* Transactions Section */}
           <div className="flex-1 bg-[#1b233a] p-6 rounded-lg shadow-lg ml-6">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-white mb-4">
-                Recent Transactions
-              </h2>
-              <div className="relative mb-4">
-                <input
-                  type="text"
-                  placeholder="Search transactions"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="border p-2 pl-10 rounded-md w-60 text-sm shadow-sm"
-                />
-                <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
-              </div>
-
-              <table className="w-full text-left border-collapse">
-                <thead className="bg-[#a68bff] ">
-                  <tr>
-                    <th className="px-4 py-2 text-white-500">Customer Name</th>
-                    <th className="px-4 py-2 text-white-500">Location</th>
-                    <th className="px-4 py-2 text-white-500">Amount</th>
-                    <th className="px-4 py-2 text-gwhite-500">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredTransactions.map((transaction, index) => (
-                    <tr
-                      key={index}
-                      className="border-b hover:bg-gray-100 transition"
-                    >
-                      <td className="px-4 py-2 font-medium text-gray-900">
-                        {transaction.name}
-                      </td>
-                      <td className="px-4 py-2 text-gray-500">
-                        {transaction.location}
-                      </td>
-                      <td className="px-4 py-2 font-semibold text-black">
-                        {transaction.amount}
-                      </td>
-                      <td className="px-4 py-2">
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            transaction.status === "Success"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-red-100 text-red-700"
-                          }`}
-                        >
-                          {transaction.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <h2 className="text-xl font-semibold text-white mb-4">
+              Recent Transactions
+            </h2>
+            <input
+              type="text"
+              placeholder="Search transactions"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="border p-2 pl-10 rounded-md w-60 text-sm shadow-sm"
+            />
+            <ul>
+              {filteredTransactions.map((transaction, index) => (
+                <li key={index}>{transaction.name}</li>
+              ))}
+            </ul>
           </div>
 
-          {/* Branches Card */}
+          {/* Branches Section */}
           <div className="w-80 bg-[#1b233a] shadow-lg rounded-lg p-4 h-full overflow-y-auto">
-            <h2 className="text-lg font-semibold text-white mb-4">All Branches</h2>
+            <h2 className="text-lg font-semibold text-white mb-4">
+              Business Branches
+            </h2>
             <ul className="space-y-3">
-              {Branches.map((Branches) => (
-                <li
-                  key={Branches.id}
-                  className="p-3 bg-[#a68bff] rounded-lg shadow-inner hover:shadow-md transition"
-                >
-                  <span className="font-medium text-white">{Branches.name}</span>
+              {Branches.map((branch) => (
+                <li key={branch.id} className="p-3 bg-[#a68bff] rounded-lg">
+                  <span className="font-medium text-white">{branch.name}</span>
                 </li>
               ))}
             </ul>

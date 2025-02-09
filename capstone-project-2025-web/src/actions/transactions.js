@@ -4,7 +4,7 @@ import { baseUrl, getHeaders } from "./config";
 
 export async function getTransactions() {
   try {
-    const response = await fetch(`${baseUrl}/business/profile/5/transactions`, {
+    const response = await fetch(`${baseUrl}/profile/${businessId}/transactions`, {
       method: "GET",
       headers: await getHeaders({ auth: true }),
     });
