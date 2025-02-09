@@ -17,12 +17,10 @@ import {
 export default function Dashboard({ switchPage }) {
   const [search, setSearch] = useState("");
   const [transactions, setTransactions] = useState([]);
-  const [users, setUsers] = useState([
-    { id: 1, name: "Abdullah Alhumaidhan" },
-    { id: 2, name: "Abdulrahman AlFahad" },
-    { id: 3, name: "Saja Al Bin Ali" },
-    { id: 4, name: "Abdullah Alhumaidhan" },
-    { id: 5, name: "Abdulrahman AlFahad" },
+  const [Branches, setBranches] = useState([
+    { id: 1, name: "Kaifan" },
+    { id: 2, name: "Abdulla Mubark" },
+    { id: 3, name: "5th Ring Road" },
   ]);
 
   const weeklyData = [
@@ -64,13 +62,13 @@ export default function Dashboard({ switchPage }) {
   return (
     <div className="flex min-h-screen bg-gray-100 p-4">
       {/* Sidebar */}
-      <aside className="bg-[#1F1D35] text-white w-64 flex flex-col justify-between rounded-2xl shadow-xl overflow-hidden">
+      <aside className="bg-[#1b233a] text-white w-64 flex flex-col justify-between rounded-2xl shadow-xl overflow-hidden">
         <div>
           <nav className="mt-4">
             <ul className="space-y-2">
               <li className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg mx-4">
                 <Grid className="w-5 h-5 mr-3" />
-                <span>Dashboard</span>
+                <span>Analytics</span>
               </li>
             </ul>
           </nav>
@@ -93,29 +91,37 @@ export default function Dashboard({ switchPage }) {
       {/* Main Content */}
       <div className="flex-1 flex flex-col gap-6">
         {/* Graph Section */}
-        <div className="bg-white p-4 rounded-lg shadow-lg w-full max-w-[calc(100%-16rem)] self-center">
-          <h2 className="text-xl font-semibold text-black mb-4">
+        <h2 className="text-2xl font-semibold text-black mb-4">
+          Business Name
+        </h2>
+        <div className="bg-[#1b233a] p-6 rounded-lg shadow-md w-full max-w-[calc(100%-16rem)] self-center border border-gray-200">
+          <h2 className="text-xl font-semibold text-white mb-4">
             Weekly Activity
           </h2>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart
               data={weeklyData}
               margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="day" stroke="#8884d8" />
-              <YAxis stroke="#8884d8" />
+              <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.5} />
+              <XAxis dataKey="day" stroke="#4A5568" />
+              <YAxis stroke="#4A5568" />
               <Tooltip />
-              <Bar dataKey="value" fill="#ff6384" barSize={30} />
+              <Bar
+                dataKey="value"
+                fill="#a68bff"
+                barSize={35}
+                radius={[5, 5, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         <main className="flex flex-1 gap-6 flex-wrap">
           {/* Transactions Section */}
-          <div className="flex-1 bg-white p-6 rounded-lg shadow-lg">
+          <div className="flex-1 bg-[#1b233a] p-6 rounded-lg shadow-lg ml-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-black mb-4">
+              <h2 className="text-xl font-semibold text-white mb-4">
                 Recent Transactions
               </h2>
               <div className="relative mb-4">
@@ -130,12 +136,12 @@ export default function Dashboard({ switchPage }) {
               </div>
 
               <table className="w-full text-left border-collapse">
-                <thead className="bg-gray-200">
+                <thead className="bg-[#a68bff] ">
                   <tr>
-                    <th className="px-4 py-2 text-gray-500">Customer Name</th>
-                    <th className="px-4 py-2 text-gray-500">Location</th>
-                    <th className="px-4 py-2 text-gray-500">Amount</th>
-                    <th className="px-4 py-2 text-gray-500">Status</th>
+                    <th className="px-4 py-2 text-white-500">Customer Name</th>
+                    <th className="px-4 py-2 text-white-500">Location</th>
+                    <th className="px-4 py-2 text-white-500">Amount</th>
+                    <th className="px-4 py-2 text-gwhite-500">Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -171,18 +177,16 @@ export default function Dashboard({ switchPage }) {
             </div>
           </div>
 
-          {/* User List Card */}
-          <div className="w-80 bg-white shadow-lg rounded-lg p-4 h-full overflow-y-auto">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">
-              All Users
-            </h2>
+          {/* Branches Card */}
+          <div className="w-80 bg-[#1b233a] shadow-lg rounded-lg p-4 h-full overflow-y-auto">
+            <h2 className="text-lg font-semibold text-white mb-4">All Branches</h2>
             <ul className="space-y-3">
-              {users.map((user) => (
+              {Branches.map((Branches) => (
                 <li
-                  key={user.id}
-                  className="p-3 bg-gray-50 rounded-lg shadow-inner hover:shadow-md transition"
+                  key={Branches.id}
+                  className="p-3 bg-[#a68bff] rounded-lg shadow-inner hover:shadow-md transition"
                 >
-                  <span className="font-medium text-gray-800">{user.name}</span>
+                  <span className="font-medium text-white">{Branches.name}</span>
                 </li>
               ))}
             </ul>

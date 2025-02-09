@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { login } from "../actions/auth"; 
+import { login } from "../actions/auth";
 
 export default function LoginPage({ switchPage }) {
   const [username, setUsername] = useState("");
@@ -20,14 +20,14 @@ export default function LoginPage({ switchPage }) {
     setLoading(false);
 
     if (success) {
-      switchPage("dashboard"); 
+      switchPage("dashboard");
     } else {
       setErrorMessage("Invalid login credentials. Please try again.");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#1F1D35]">
+    <div className="flex items-center justify-center min-h-screen bg-[#151d30]">
       <div className="w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg">
         <h1 className="mb-4 text-2xl font-semibold text-center">LOGO</h1>
         <h2 className="text-lg font-medium text-center text-gray-600">
