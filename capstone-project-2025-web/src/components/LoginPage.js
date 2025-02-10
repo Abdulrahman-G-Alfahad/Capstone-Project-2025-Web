@@ -28,7 +28,7 @@ export default function LoginPage({ switchPage }) {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#151d30]">
-      <div className="w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg">
+      <div className="w-full max-w-sm p-6 bg-[#1b233a] rounded-2xl shadow-lg">
         <h1 className="mb-4 text-2xl font-semibold text-center">LOGO</h1>
         <h2 className="text-lg font-medium text-center text-gray-600">
           Welcome Back, Please login
@@ -64,7 +64,7 @@ export default function LoginPage({ switchPage }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 text-white bg-[#FF3A79] rounded-lg hover:bg-[#FF3366]"
+            className="w-full px-4 py-2 text-white bg-[#a68bff] rounded-lg hover:bg-[#5d22b8]"
           >
             {loading ? "Logging in..." : "Login"}
           </button>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signup } from "../actions/auth"; 
+import { signup } from "../actions/auth";
 
 export default function SignUp({ switchPage }) {
   const [username, setUsername] = useState("");
@@ -38,8 +38,8 @@ export default function SignUp({ switchPage }) {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#1F1D35]">
-      <div className="w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg">
+    <div className="flex items-center justify-center min-h-screen bg-[#151d30]">
+      <div className="w-full max-w-sm p-6 bg-[#1b233a] rounded-2xl shadow-lg">
         <h1 className="mb-4 text-2xl font-semibold text-center">LOGO</h1>
         <h2 className="text-lg font-medium text-center text-gray-600">
           Welcome, sign up here
@@ -47,7 +47,7 @@ export default function SignUp({ switchPage }) {
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           {/* Form Fields */}
           <div>
-            <label className="block text-sm font-medium text-black">
+            <label className="block text-sm font-medium text-white">
               username
             </label>
             <input
@@ -59,7 +59,7 @@ export default function SignUp({ switchPage }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black">name</label>
+            <label className="block text-sm font-medium text-white">name</label>
             <input
               type="text"
               value={name}
@@ -69,7 +69,7 @@ export default function SignUp({ switchPage }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black">
+            <label className="block text-sm font-medium text-white">
               Email
             </label>
             <input
@@ -81,7 +81,7 @@ export default function SignUp({ switchPage }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black">
+            <label className="block text-sm font-medium text-white">
               Password
             </label>
             <input
@@ -94,7 +94,7 @@ export default function SignUp({ switchPage }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-black">
+            <label className="block text-sm font-medium text-white">
               Address
             </label>
             <input
@@ -106,7 +106,7 @@ export default function SignUp({ switchPage }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black">
+            <label className="block text-sm font-medium text-white">
               Business ID
             </label>
             <input
@@ -118,7 +118,7 @@ export default function SignUp({ switchPage }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black">
+            <label className="block text-sm font-medium text-white">
               Bank Account Number
             </label>
             <input
@@ -132,7 +132,7 @@ export default function SignUp({ switchPage }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 text-white bg-[#FF3A79] rounded-lg hover:bg-[#FF3366]"
+            className="w-full px-4 py-2 text-white bg-[#a68bff] rounded-lg hover:bg-[#5d22b8]"
           >
             {loading ? "Signing up..." : "Sign up"}
           </button>
