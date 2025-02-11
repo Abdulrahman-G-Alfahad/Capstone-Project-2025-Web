@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Grid, Settings, LogOut } from "lucide-react";
+import { Grid, Settings, LogOut } from "lucide-react";
 import { logout } from "../actions/auth";
-import { getTransactions } from "../actions/transactions";
+import { getTransactions, getUserLocal } from "../actions/transactions";
 import { getBusinessBranches } from "../actions/branches";
+import Transaction from "./transactions";
 import {
   BarChart,
   Bar,
@@ -18,7 +19,8 @@ import {
 export default function Dashboard({ switchPage }) {
   const [search, setSearch] = useState("");
   const [transactions, setTransactions] = useState([]);
-  const [Branches, setBranches] = useState([]);
+  const [branches, setBranches] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const weeklyData = [
     { day: "Sunday", value: 70 },
@@ -31,33 +33,44 @@ export default function Dashboard({ switchPage }) {
   ];
 
   useEffect(() => {
-    const fetchTransactions = async () => {
+    const fetchData = async () => {
+      console.log("Fetching data...");
       try {
-        const data = await getTransactions();
-        setTransactions(Array.isArray(data) ? data : []);
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
-        setTransactions([]);
-      }
-    };
-    fetchTransactions();
-  }, []);
+        const user = await getUserLocal();
+        console.log("User fetched:", user);
+        if (!user?.userId) {
+          console.error("User ID is missing");
+          return;
+        }
 
-  useEffect(() => {
-    const fetchBranches = async () => {
-      try {
-        const data = await getBusinessBranches(1);
-        console.log("first");
-        console.log(data);
+        // this method fetches transactions and branches
+        const [branchesData, transactionsData] = await Promise.all([
+          getBusinessBranches(user.userId),
+          getTransactions(user.userId),
+        ]);
+
+        console.log("Branches fetched:", branchesData);
+        console.log("Transactions fetched:", transactionsData.transactions);
+
         setBranches(
-          Array.isArray(data.associateList) ? data.associateList : []
+          Array.isArray(branchesData.associateList)
+            ? branchesData.associateList
+            : []
+        );
+
+        setTransactions(
+          Array.isArray(transactionsData.transactions)
+            ? transactionsData.transactions
+            : []
         );
       } catch (error) {
-        console.error("Error fetching branches:", error);
-        setBranches([]);
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchBranches();
+
+    fetchData();
   }, []);
 
   const handleLogout = async () => {
@@ -69,9 +82,11 @@ export default function Dashboard({ switchPage }) {
     }
   };
 
-  const filteredTransactions = transactions.filter((t) =>
-    t?.name?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredTransactions = search
+    ? transactions.filter((t) =>
+        t?.transactionDate?.toLowerCase().includes(search.toLowerCase())
+      )
+    : transactions;
 
   return (
     <div className="flex min-h-screen bg-[#151d30] p-4">
@@ -81,7 +96,7 @@ export default function Dashboard({ switchPage }) {
           <nav className="mt-4">
             <ul className="space-y-2">
               <li className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg mx-4">
-                <Grid className="w-5 h-5 mr-3 text-[#a68bff]" />{" "}
+                <Grid className="w-5 h-5 mr-3 text-[#a68bff]" />
                 <span className="font-semibold">Analytics</span>
               </li>
             </ul>
@@ -89,14 +104,14 @@ export default function Dashboard({ switchPage }) {
         </div>
         <div className="mb-6 px-4">
           <div className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg">
-            <Settings className="w-5 h-5 mr-3 text-[#a68bff]" />{" "}
+            <Settings className="w-5 h-5 mr-3 text-[#a68bff]" />
             <span className="font-semibold">Settings </span>
           </div>
           <div
             className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg"
             onClick={handleLogout}
           >
-            <LogOut className="w-5 h-5 mr-3 text-[#a68bff]" />{" "}
+            <LogOut className="w-5 h-5 mr-3 text-[#a68bff]" />
             <span className="font-semibold">Log out</span>
           </div>
         </div>
@@ -120,23 +135,7 @@ export default function Dashboard({ switchPage }) {
               <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.5} />
               <XAxis dataKey="day" stroke="#4A5568" />
               <YAxis stroke="#4A5568" />
-              <Tooltip
-                content={({ payload }) => {
-                  if (payload && payload.length) {
-                    return (
-                      <div className="text-white text-sm">
-                        Sales: {payload[0].value}
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-                wrapperStyle={{
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                cursor={{ fill: "none" }}
-              />
+              <Tooltip />
               <Bar
                 dataKey="value"
                 fill="#a68bff"
@@ -160,10 +159,19 @@ export default function Dashboard({ switchPage }) {
               onChange={(e) => setSearch(e.target.value)}
               className="border p-2 pl-10 rounded-md w-60 text-sm shadow-sm text-black"
             />
-            <ul>
-              {/* {filteredTransactions.map((transaction, index) => (
-                <li key={index}>{transaction.name}</li>
-              ))} */}
+            <ul className="mt-4 space-y-3">
+              {loading ? (
+                <li className="text-gray-400">Loading transactions...</li>
+              ) : filteredTransactions.length > 0 ? (
+                filteredTransactions.map((transaction) => (
+                  <Transaction
+                    key={transaction.transactionId}
+                    transaction={transaction}
+                  />
+                ))
+              ) : (
+                <li className="text-gray-400">No transactions available</li>
+              )}
             </ul>
           </div>
 
@@ -173,17 +181,16 @@ export default function Dashboard({ switchPage }) {
               Business Branches
             </h2>
             <ul className="space-y-3">
-              {Branches.map(
-                (branch) => (
-                  console.log(branch),
-                  (
-                    <li key={branch.id} className="p-3 bg-[#a68bff] rounded-lg">
-                      <span className="font-medium text-white">
-                        {branch.name}
-                      </span>
-                    </li>
-                  )
-                )
+              {branches.length > 0 ? (
+                branches.map((branch) => (
+                  <li key={branch.id} className="p-3 bg-[#a68bff] rounded-lg">
+                    <span className="font-medium text-white">
+                      {branch.name}
+                    </span>
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-400">No branches found</li>
               )}
             </ul>
           </div>

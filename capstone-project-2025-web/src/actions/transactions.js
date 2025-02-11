@@ -1,22 +1,35 @@
 "use server";
 
 import { baseUrl, getHeaders } from "./config";
+import { getUser } from "./token";
 
-export async function getTransactions(businessId) {
+export async function getTransactions(receiverId) {
+  console.log("Fetching transactions for business ID:", receiverId);
   try {
-    const response = await fetch(`${baseUrl}/profile/${businessId}/transactions`, {
-      method: "GET",
-      headers: await getHeaders({ auth: true }),
-    });
+    const response = await fetch(
+      `${baseUrl}/transaction/receiver/${receiverId}`,
+      {
+        method: "GET",
+        headers: await getHeaders({ auth: true }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch transactions");
     }
 
     const data = await response.json();
-    return Array.isArray(data) ? data : []; 
+    // console.log(data.transactions);
+    return {
+      transactions: Array.isArray(data.transactions) ? data.transactions : [],
+    };
   } catch (error) {
     console.error("Error fetching transactions:", error);
-    return [];
+    return { transactions: [] };
   }
+}
+
+export async function getUserLocal() {
+  const user = await getUser();
+  return user;
 }

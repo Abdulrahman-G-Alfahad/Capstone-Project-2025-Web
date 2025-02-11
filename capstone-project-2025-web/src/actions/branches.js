@@ -3,7 +3,7 @@
 import { baseUrl, getHeaders } from "./config";
 
 export async function getBusinessBranches(businessId) {
-  console.log(businessId);
+  // console.log(businessId);
   try {
     const response = await fetch(
       `${baseUrl}/business/profile/${businessId}/associates`,
@@ -13,9 +13,9 @@ export async function getBusinessBranches(businessId) {
       }
     );
 
-    const res = await response.json()
+    const res = await response.json();
 
-    console.log(res.associateList);
+    // console.log(res.associateList);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch branches: ${response.statusText}`);
