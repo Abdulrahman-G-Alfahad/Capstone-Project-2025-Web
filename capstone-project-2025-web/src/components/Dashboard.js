@@ -14,6 +14,9 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
 
 export default function Dashboard({ switchPage }) {
@@ -34,23 +37,14 @@ export default function Dashboard({ switchPage }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Fetching data...");
       try {
         const user = await getUserLocal();
-        console.log("User fetched:", user);
-        if (!user?.userId) {
-          console.error("User ID is missing");
-          return;
-        }
+        if (!user?.userId) return;
 
-        // this method fetches transactions and branches
         const [branchesData, transactionsData] = await Promise.all([
           getBusinessBranches(user.userId),
           getTransactions(user.userId),
         ]);
-
-        console.log("Branches fetched:", branchesData);
-        console.log("Transactions fetched:", transactionsData.transactions);
 
         setBranches(
           Array.isArray(branchesData.associateList)
@@ -88,6 +82,13 @@ export default function Dashboard({ switchPage }) {
       )
     : transactions;
 
+  const userData = [
+    { name: "Barcode Users", value: 8120 },
+    { name: "Face ID Users", value: 12423 },
+  ];
+
+  const COLORS = ["#0D9488", "#a78bfa"];
+
   return (
     <div className="flex min-h-screen bg-[#151d30] p-4">
       {/* Sidebar */}
@@ -96,105 +97,142 @@ export default function Dashboard({ switchPage }) {
           <nav className="mt-4">
             <ul className="space-y-2">
               <li className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg mx-4">
-                <Grid className="w-5 h-5 mr-3 text-[#a68bff]" />
-                <span className="font-semibold">Analytics</span>
+                <Grid className="w-5 h-5 mr-3 text-[#a78bfa]" />
+                <span className="font-semibold">Dashboard</span>
               </li>
             </ul>
           </nav>
         </div>
         <div className="mb-6 px-4">
           <div className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg">
-            <Settings className="w-5 h-5 mr-3 text-[#a68bff]" />
-            <span className="font-semibold">Settings </span>
+            <Settings className="w-5 h-5 mr-3 text-[#a78bfa]" />
+            <span className="font-semibold">Settings</span>
           </div>
           <div
             className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg"
             onClick={handleLogout}
           >
-            <LogOut className="w-5 h-5 mr-3 text-[#a68bff]" />
+            <LogOut className="w-5 h-5 mr-3 text-[#a78bfa]" />
             <span className="font-semibold">Log out</span>
           </div>
         </div>
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col gap-6">
-        {/* Graph Section */}
-        <h2 className="text-2xl flex items-center justify-center font-semibold text-white mb-4">
-          Trollly, Convenience Store
+      <div className="flex flex-col w-full ml-6">
+        <h2 className="text-2xl font-semibold text-white mb-6 text-center">
+          Trolley, Convenience Store
         </h2>
-        <div className="bg-[#1b233a] p-6 rounded-lg shadow-md w-full max-w-[calc(100%-16rem)] self-center border border-gray-200">
-          <h2 className="text-xl font-semibold text-white mb-4">
-            Weekly Activity
-          </h2>
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart
-              data={weeklyData}
-              margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.5} />
-              <XAxis dataKey="day" stroke="#4A5568" />
-              <YAxis stroke="#4A5568" />
-              <Tooltip />
-              <Bar
-                dataKey="value"
-                fill="#a68bff"
-                barSize={35}
-                radius={[5, 5, 0, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
+
+        {/* Charts Section */}
+        <div className="flex flex-row gap-6">
+          {/* Weekly Activity Chart */}
+          <div className="bg-[#1b233a] p-6 rounded-lg shadow-md flex-1 border border-gray-200">
+            <h2 className="text-xl font-semibold text-white mb-4">
+              Weekly Activity
+            </h2>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart
+                data={weeklyData}
+                margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.5} />
+                <XAxis dataKey="day" stroke="#4A5568" />
+                <YAxis stroke="#4A5568" />
+                <Tooltip />
+                <Bar
+                  dataKey="value"
+                  fill="#a78bfa"
+                  barSize={35}
+                  radius={[5, 5, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Pie Chart */}
+          <div className="bg-[#1b233a] p-6 rounded-lg shadow-md w-80 border border-gray-200">
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie
+                  data={userData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={50}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  label
+                  stroke="none"
+                >
+                  {userData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+
+            {/* Custom Legend with Color Circles */}
+            <div className="flex justify-between items-center text-white mt-4 text-sm">
+              {userData.map((entry, index) => (
+                <div key={index} className="flex items-center">
+                  <span
+                    className="w-3 h-3 rounded-full mr-2"
+                    style={{ backgroundColor: COLORS[index] }}
+                  ></span>
+                  <span>{entry.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <main className="flex flex-1 gap-6 flex-wrap">
+        {/* Transactions & Branches Section */}
+        <div className="flex flex-row gap-6 mt-6">
           {/* Transactions Section */}
-          <div className="flex-1 bg-[#1b233a] p-6 rounded-lg shadow-lg ml-6">
+          <div className="flex-1 bg-[#1b233a] p-6 rounded-lg shadow-lg border border-gray-200">
             <h2 className="text-xl font-semibold text-white mb-4">
               Recent Transactions
             </h2>
-            <input
-              type="text"
-              placeholder="Search transactions"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="border p-2 pl-10 rounded-md w-60 text-sm shadow-sm text-black"
-            />
-            <ul className="mt-4 space-y-3">
-              {loading ? (
-                <li className="text-gray-400">Loading transactions...</li>
-              ) : filteredTransactions.length > 0 ? (
-                filteredTransactions.map((transaction) => (
-                  <Transaction
-                    key={transaction.transactionId}
-                    transaction={transaction}
-                  />
-                ))
-              ) : (
-                <li className="text-gray-400">No transactions available</li>
-              )}
-            </ul>
+
+            {/* Column Headers */}
+            <div className="grid grid-cols-4 text-white text-sm font-semibold bg-[#292846] p-3 rounded-lg">
+              <div className="text-left">Method</div>
+              <div className="text-center">Amount</div>
+              <div className="text-center">Date and Time</div>
+              <div className="text-right">Status</div>
+            </div>
+
+            {/* Transactions List */}
+            <div className="space-y-4 mt-3">
+              {filteredTransactions.map((transaction) => (
+                <Transaction
+                  key={transaction.transactionId}
+                  transaction={transaction}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Branches Section */}
-          <div className="w-80 bg-[#1b233a] shadow-lg rounded-lg p-4 h-full overflow-y-auto">
+          <div className="w-80 bg-[#1b233a] shadow-lg rounded-lg p-6 border border-gray-200">
             <h2 className="text-lg font-semibold text-white mb-4">
               Business Branches
             </h2>
             <ul className="space-y-3">
-              {branches.length > 0 ? (
-                branches.map((branch) => (
-                  <li key={branch.id} className="p-3 bg-[#a68bff] rounded-lg">
-                    <span className="font-medium text-white">
-                      {branch.name}
-                    </span>
-                  </li>
-                ))
-              ) : (
-                <li className="text-gray-400">No branches found</li>
-              )}
+              {branches.map((branch) => (
+                <li
+                  key={branch.id}
+                  className="p-3 bg-[#a78bfa] rounded-lg text-white"
+                >
+                  {branch.name}
+                </li>
+              ))}
             </ul>
           </div>
-        </main>
+        </div>
       </div>
     </div>
   );

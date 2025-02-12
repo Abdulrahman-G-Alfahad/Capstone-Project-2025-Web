@@ -2,17 +2,32 @@ import React from "react";
 
 export default function Transaction({ transaction }) {
   return (
-    <li className="text-white p-3 border-b border-gray-700 bg-[#292846] rounded-lg">
-      <div className="flex justify-between">
-        <span className="font-semibold">Method: {transaction.method}</span>
-        <span className="text-sm text-gray-400">{transaction.status}</span>
+    <div className="bg-[#151d30] p-4 rounded-lg shadow-md text-white w-full grid grid-cols-4 gap-4 items-center">
+      {/* Payment Method */}
+      <div className="font-bold text-left">{transaction.method}</div>
+
+      {/* Amount */}
+      <div className="font-bold text-center">{transaction.amount} KD</div>
+
+      {/* Date and Time */}
+      <div className="font-bold text-center">
+        {new Date(transaction.transactionDate).toLocaleString()}
       </div>
-      <div className="text-sm">
-        Amount: <span className="font-medium">${transaction.amount}</span>
+
+      {/* Status */}
+      <div className="text-right">
+        <span
+          className={`px-3 py-1 text-sm font-medium rounded-lg ${
+            transaction.status === "Success"
+              ? "bg-green-200 text-green-800"
+              : transaction.status === "Failed"
+              ? "bg-red-200 text-red-800"
+              : "bg-gray-300 text-gray-800"
+          }`}
+        >
+          {transaction.status}
+        </span>
       </div>
-      <div className="text-xs text-gray-400">
-        Date: {new Date(transaction.transactionDate).toLocaleString()}
-      </div>
-    </li>
+    </div>
   );
 }
