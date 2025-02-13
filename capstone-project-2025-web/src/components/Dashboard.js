@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Grid, Settings, LogOut } from "lucide-react";
+import { Grid, Settings, LogOut, Store } from "lucide-react";
 import { logout } from "../actions/auth";
 import { getTransactions, getUserLocal } from "../actions/transactions";
 import { getBusinessBranches } from "../actions/branches";
@@ -83,16 +83,16 @@ export default function Dashboard({ switchPage }) {
     : transactions;
 
   const userData = [
-    { name: "Barcode Users", value: 8120 },
-    { name: "Face ID Users", value: 12423 },
+    { name: "Barcode Users", value: 505 },
+    { name: "Face ID Users", value: 1000 },
   ];
 
   const COLORS = ["#0D9488", "#a78bfa"];
 
   return (
-    <div className="flex min-h-screen bg-[#151d30] p-4">
-      {/* Sidebar */}
-      <aside className="bg-[#1b233a] text-white w-64 flex flex-col justify-between rounded-2xl shadow-xl overflow-hidden">
+    <div className="flex min-h-screen bg-[#151d30] p-6">
+      {/* Sidebar with  */}
+      <aside className="bg-[#1b233a] text-white w-64 h-[90vh] flex flex-col justify-between rounded-2xl shadow-xl overflow-hidden border border-gray-200">
         <div>
           <nav className="mt-4">
             <ul className="space-y-2">
@@ -117,17 +117,13 @@ export default function Dashboard({ switchPage }) {
           </div>
         </div>
       </aside>
-
-      {/* Main Content */}
-      <div className="flex flex-col w-full ml-6">
-        <h2 className="text-2xl font-semibold text-white mb-6 text-center">
+      <div className="flex flex-col w-full ml-6 mt-8">
+        <h2 className="text-2xl font-semibold text-white mb-6 text-left">
           Trolley, Convenience Store
         </h2>
-
-        {/* Charts Section */}
+        {/*graph section*/}
         <div className="flex flex-row gap-6">
-          {/* Weekly Activity Chart */}
-          <div className="bg-[#1b233a] p-6 rounded-lg shadow-md flex-1 border border-gray-200">
+          <div className="bg-[#1b233a] p-6 rounded-2xl shadow-md flex-1 border border-gray-200">
             <h2 className="text-xl font-semibold text-white mb-4">
               Weekly Activity
             </h2>
@@ -149,9 +145,8 @@ export default function Dashboard({ switchPage }) {
               </BarChart>
             </ResponsiveContainer>
           </div>
-
-          {/* Pie Chart */}
-          <div className="bg-[#1b233a] p-6 rounded-lg shadow-md w-80 border border-gray-200">
+          {/*pie chart section*/}
+          <div className="bg-[#1b233a] p-6 rounded-2xl shadow-md w-80 border border-gray-200">
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
@@ -173,8 +168,6 @@ export default function Dashboard({ switchPage }) {
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
-
-            {/* Custom Legend with Color Circles */}
             <div className="flex justify-between items-center text-white mt-4 text-sm">
               {userData.map((entry, index) => (
                 <div key={index} className="flex items-center">
@@ -188,24 +181,18 @@ export default function Dashboard({ switchPage }) {
             </div>
           </div>
         </div>
-
-        {/* Transactions & Branches Section */}
+        {/*transactions section*/}
         <div className="flex flex-row gap-6 mt-6">
-          {/* Transactions Section */}
-          <div className="flex-1 bg-[#1b233a] p-6 rounded-lg shadow-lg border border-gray-200">
+          <div className="flex-1 bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-gray-200">
             <h2 className="text-xl font-semibold text-white mb-4">
               Recent Transactions
             </h2>
-
-            {/* Column Headers */}
-            <div className="grid grid-cols-4 text-white text-sm font-semibold bg-[#292846] p-3 rounded-lg">
+            <div className="grid grid-cols-4 text-white text-sm font-semibold p-1 rounded-lg ">
               <div className="text-left">Method</div>
               <div className="text-center">Amount</div>
               <div className="text-center">Date and Time</div>
               <div className="text-right">Status</div>
             </div>
-
-            {/* Transactions List */}
             <div className="space-y-4 mt-3">
               {filteredTransactions.map((transaction) => (
                 <Transaction
@@ -215,18 +202,18 @@ export default function Dashboard({ switchPage }) {
               ))}
             </div>
           </div>
-
-          {/* Branches Section */}
-          <div className="w-80 bg-[#1b233a] shadow-lg rounded-lg p-6 border border-gray-200">
-            <h2 className="text-lg font-semibold text-white mb-4">
+          {/*branches section*/}
+          <div className="w-80 bg-[#1b233a] shadow-lg rounded-2xl p-6 border border-gray-200 ml-6  ">
+            <h2 className="text-lg font-semibold  text-white mb-4  ">
               Business Branches
             </h2>
             <ul className="space-y-3">
               {branches.map((branch) => (
                 <li
                   key={branch.id}
-                  className="p-3 bg-[#a78bfa] rounded-lg text-white"
+                  className="p-3 bg-[#a78bfa] rounded-lg text-white flex items-center hover:bg-[#5d22b8]"
                 >
+                  <Store className="w-5 h-5 mr-2 text-white" />
                   {branch.name}
                 </li>
               ))}

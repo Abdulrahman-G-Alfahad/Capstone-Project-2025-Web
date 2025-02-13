@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Transaction({ transaction }) {
   return (
-    <div className="bg-[#151d30] p-4 rounded-lg shadow-md text-white w-full grid grid-cols-4 gap-4 items-center">
+    <div className="bg-[#151d30] p-4 rounded-lg shadow-md text-white w-full grid grid-cols-4 gap-4 items-center hover:bg-[#292846]">
       {/* Payment Method */}
       <div className="font-bold text-left">{transaction.method}</div>
 
