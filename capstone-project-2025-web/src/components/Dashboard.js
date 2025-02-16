@@ -63,7 +63,6 @@ export default function Dashboard({ switchPage }) {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -92,8 +91,17 @@ export default function Dashboard({ switchPage }) {
   return (
     <div className="flex min-h-screen bg-[#151d30] p-6">
       {/* Sidebar with  */}
+
       <aside className="bg-[#1b233a] text-white w-64 h-[90vh] flex flex-col justify-between rounded-2xl shadow-xl overflow-hidden border border-gray-200">
         <div>
+          <div className="flex items-center justify-center p-6">
+            <img
+              src="https://cdn.discordapp.com/attachments/1325772122546634782/1340570990517682227/FaceBouk0002.png?ex=67b2d786&is=67b18606&hm=f4f856ac953593c35bfddada2633c1c3bfdd23fd2199a918e74a710e0f40cd44&"
+              alt="Logo"
+              className="h-20 w-auto"
+            />
+          </div>
+
           <nav className="mt-4">
             <ul className="space-y-2">
               <li className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg mx-4">
@@ -119,11 +127,11 @@ export default function Dashboard({ switchPage }) {
       </aside>
       <div className="flex flex-col w-full ml-6 mt-8">
         <h2 className="text-2xl font-semibold text-white mb-6 text-left">
-          Trolley, Convenience Store
+          Coded Canteen
         </h2>
-        {/*graph section*/}
         <div className="flex flex-row gap-6">
-          <div className="bg-[#1b233a] p-6 rounded-2xl shadow-md flex-1 border border-gray-200">
+          {/* Graph section */}
+          <div className="flex-1 bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-gray-200 h-full w-full">
             <h2 className="text-xl font-semibold text-white mb-4">
               Weekly Activity
             </h2>
@@ -135,7 +143,16 @@ export default function Dashboard({ switchPage }) {
                 <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.5} />
                 <XAxis dataKey="day" stroke="#4A5568" />
                 <YAxis stroke="#4A5568" />
-                <Tooltip />
+                <Tooltip
+                  content={({ payload }) =>
+                    payload && payload.length ? (
+                      <div className="text-white text-sm font-semibold">
+                        Value: {payload[0].value}
+                      </div>
+                    ) : null
+                  }
+                  cursor={{ fill: "transparent" }}
+                />
                 <Bar
                   dataKey="value"
                   fill="#a78bfa"
@@ -181,13 +198,13 @@ export default function Dashboard({ switchPage }) {
             </div>
           </div>
         </div>
-        {/*transactions section*/}
-        <div className="flex flex-row gap-6 mt-6">
-          <div className="flex-1 bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-gray-200">
+        {/*transactions*/}
+        <div className="flex flex-row gap-6 mt-4">
+          <div className="flex-[3.5] bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-gray-200 h-full">
             <h2 className="text-xl font-semibold text-white mb-4">
               Recent Transactions
             </h2>
-            <div className="grid grid-cols-4 text-white text-sm font-semibold p-1 rounded-lg ">
+            <div className="grid grid-cols-4 text-white text-sm font-semibold p-1 rounded-lg">
               <div className="text-left">Method</div>
               <div className="text-center">Amount</div>
               <div className="text-center">Date and Time</div>
@@ -202,9 +219,10 @@ export default function Dashboard({ switchPage }) {
               ))}
             </div>
           </div>
-          {/*branches section*/}
-          <div className="w-80 bg-[#1b233a] shadow-lg rounded-2xl p-6 border border-gray-200 ml-6  ">
-            <h2 className="text-lg font-semibold  text-white mb-4  ">
+
+          {/*busniess branches*/}
+          <div className="flex-1 bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-gray-200 h-full">
+            <h2 className="text-lg font-semibold text-white mb-4">
               Business Branches
             </h2>
             <ul className="space-y-3">

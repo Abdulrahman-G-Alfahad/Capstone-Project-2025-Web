@@ -3,11 +3,11 @@
 import { baseUrl, getHeaders } from "./config";
 import { getUser } from "./token";
 
-export async function getTransactions(receiverId) {
-  console.log("Fetching transactions for business ID:", receiverId);
+export async function getTransactions(businessId) {
+  console.log("Fetching transactions for business ID:", businessId);
   try {
     const response = await fetch(
-      `${baseUrl}/transaction/receiver/${receiverId}`,
+      `${baseUrl}/transactions/business/${businessId}`,
       {
         method: "GET",
         headers: await getHeaders({ auth: true }),
