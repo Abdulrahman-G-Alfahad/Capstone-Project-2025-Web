@@ -7,7 +7,7 @@ export async function getTransactions(businessId) {
   console.log("Fetching transactions for business ID:", businessId);
   try {
     const response = await fetch(
-      `${baseUrl}/transactions/business/${businessId}`,
+      `${baseUrl}/business/profile/${businessId}/transactions`,
       {
         method: "GET",
         headers: await getHeaders({ auth: true }),
@@ -19,9 +19,11 @@ export async function getTransactions(businessId) {
     }
 
     const data = await response.json();
-    // console.log(data.transactions);
+    // console.log(data.transactionList);
     return {
-      transactions: Array.isArray(data.transactions) ? data.transactions : [],
+      transactions: Array.isArray(data.transactionList)
+        ? data.transactionList
+        : [],
     };
   } catch (error) {
     console.error("Error fetching transactions:", error);
