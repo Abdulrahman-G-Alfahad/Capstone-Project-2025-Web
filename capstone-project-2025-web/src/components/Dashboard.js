@@ -182,9 +182,16 @@ export default function Dashboard({ switchPage }) {
                     <Cell key={`cell-${index}`} fill={COLORS[index]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  itemStyle={{ color: "white" }}
+                />
               </PieChart>
             </ResponsiveContainer>
+
             <div className="flex justify-between items-center text-white mt-4 text-sm">
               {userData.map((entry, index) => (
                 <div key={index} className="flex items-center">
