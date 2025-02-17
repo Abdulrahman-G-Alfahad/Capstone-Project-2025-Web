@@ -22,6 +22,10 @@ export async function getBusinessBranches(businessId) {
     }
 
     return res;
+    // console.log(res.associateList);
+    // return {
+    //   associates: Array.isArray(res.associateList) ? res.associateList : [],
+    // };
   } catch (error) {
     console.error("Error fetching business branches:", error);
     return { message: "Error fetching branches", associateList: [] };

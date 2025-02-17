@@ -82,7 +82,7 @@ export default function Dashboard({ switchPage }) {
     : transactions;
 
   const userData = [
-    { name: "Barcode Users", value: 505 },
+    { name: "QR Code Users", value: 505 },
     { name: "Face ID Users", value: 1000 },
   ];
 
@@ -239,7 +239,7 @@ export default function Dashboard({ switchPage }) {
                   className="p-3 bg-[#a78bfa] rounded-lg text-white flex items-center hover:bg-[#5d22b8]"
                 >
                   <Store className="w-5 h-5 mr-2 text-white" />
-                  {branch.name}
+                  {branch.fullName}
                 </li>
               ))}
             </ul>
