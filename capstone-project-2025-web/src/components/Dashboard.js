@@ -182,9 +182,16 @@ export default function Dashboard({ switchPage }) {
                     <Cell key={`cell-${index}`} fill={COLORS[index]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  itemStyle={{ color: "white" }}
+                />
               </PieChart>
             </ResponsiveContainer>
+
             <div className="flex justify-between items-center text-white mt-4 text-sm">
               {userData.map((entry, index) => (
                 <div key={index} className="flex items-center">
@@ -232,8 +239,6 @@ export default function Dashboard({ switchPage }) {
                   className="p-3 bg-[#a78bfa] rounded-lg text-white flex items-center hover:bg-[#5d22b8]"
                 >
                   <Store className="w-5 h-5 mr-2 text-white" />
-                  {/* {console.log("HERE IS THE BRANCH FULL NAME")} */}
-                  {/* {console.log(branch.fullName)} */}
                   {branch.fullName}
                 </li>
               ))}
