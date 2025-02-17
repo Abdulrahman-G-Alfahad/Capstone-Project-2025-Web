@@ -40,7 +40,13 @@ export default function SignUp({ switchPage }) {
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#151d30]">
       <div className="w-full max-w-sm p-6 bg-[#1b233a] rounded-2xl shadow-lg">
-        <h1 className="mb-4 text-2xl font-semibold text-center">LOGO</h1>
+        <div className="flex justify-center mb-4">
+          <img
+            src="https://i.postimg.cc/wTkmQqCt/logo3.png"
+            alt="Logo"
+            className="h-24 w-auto"
+          />
+        </div>
         <h2 className="text-lg font-medium text-center text-gray-600">
           Welcome, sign up here
         </h2>

@@ -94,15 +94,16 @@ export default function Dashboard({ switchPage }) {
 
       <aside className="bg-[#1b233a] text-white w-64 h-[90vh] flex flex-col justify-between rounded-2xl shadow-xl overflow-hidden border border-[#3c4661]">
         <div>
-          <div className="flex items-center justify-center p-6">
+          <div className="flex items-center justify-center p-4">
             <img
-              src="https://cdn.discordapp.com/attachments/1325772122546634782/1340570990517682227/FaceBouk0002.png?ex=67b2d786&is=67b18606&hm=f4f856ac953593c35bfddada2633c1c3bfdd23fd2199a918e74a710e0f40cd44&"
+              src="https://i.postimg.cc/wTkmQqCt/logo3.png"
               alt="Logo"
               className="h-20 w-auto"
             />
           </div>
 
-          <nav className="mt-4">
+          <nav className="mt-2">
+            {" "}
             <ul className="space-y-2">
               <li className="flex items-center px-6 py-3 hover:bg-[#292846] cursor-pointer rounded-lg mx-4">
                 <Grid className="w-5 h-5 mr-3 text-[#a78bfa]" />
@@ -131,7 +132,7 @@ export default function Dashboard({ switchPage }) {
         </h2>
         <div className="flex flex-row gap-6">
           {/* Graph section */}
-          <div className="flex-1 bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-gray-200 h-full w-full">
+          <div className="flex-1 bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-[#4a5473] h-full w-">
             <h2 className="text-xl font-semibold text-white mb-4">
               Weekly Activity
             </h2>
@@ -163,7 +164,7 @@ export default function Dashboard({ switchPage }) {
             </ResponsiveContainer>
           </div>
           {/*pie chart section*/}
-          <div className="bg-[#1b233a] p-6 rounded-2xl shadow-md w-80 border border-gray-200">
+          <div className="bg-[#1b233a] p-6 rounded-2xl shadow-md w-80 border border-[#4a5473]">
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
@@ -207,7 +208,7 @@ export default function Dashboard({ switchPage }) {
         </div>
         {/*transactions*/}
         <div className="flex flex-row gap-6 mt-4">
-          <div className="flex-[3.5] bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-gray-200 h-full">
+          <div className="flex-[3.5] bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-[#4a5473] h-full">
             <h2 className="text-xl font-semibold text-white mb-4">
               Recent Transactions
             </h2>
@@ -228,7 +229,7 @@ export default function Dashboard({ switchPage }) {
           </div>
 
           {/*busniess branches*/}
-          <div className="flex-1 bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-gray-200 h-full">
+          <div className="flex-1 bg-[#1b233a] p-6 rounded-2xl shadow-lg border border-[#4a5473] h-full">
             <h2 className="text-lg font-semibold text-white mb-4">
               Business Branches
             </h2>

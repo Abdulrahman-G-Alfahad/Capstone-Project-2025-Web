@@ -29,13 +29,19 @@ export default function LoginPage({ switchPage }) {
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#151d30]">
       <div className="w-full max-w-sm p-6 bg-[#1b233a] rounded-2xl shadow-lg">
-        <h1 className="mb-4 text-2xl font-semibold text-center">LOGO</h1>
-        <h2 className="text-lg font-medium text-center text-gray-600">
+        <div className="flex justify-center mb-4">
+          <img
+            src="https://i.postimg.cc/wTkmQqCt/logo3.png"
+            alt="Logo"
+            className="h-24 w-auto"
+          />{" "}
+        </div>
+        <h2 className="text-lg font-medium text-center text-white">
           Welcome Back, Please login
         </h2>
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white">
               Username
             </label>
             <input
@@ -47,7 +53,7 @@ export default function LoginPage({ switchPage }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white">
               Password
             </label>
             <input
@@ -69,7 +75,7 @@ export default function LoginPage({ switchPage }) {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        <p className="mt-4 text-sm text-center text-gray-600">
+        <p className="mt-4 text-sm text-center text-white">
           Don’t have an account?{" "}
           <span
             onClick={() => switchPage("signup")}
