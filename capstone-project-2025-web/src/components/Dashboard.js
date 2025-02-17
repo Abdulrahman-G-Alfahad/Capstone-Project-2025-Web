@@ -92,7 +92,7 @@ export default function Dashboard({ switchPage }) {
     <div className="flex min-h-screen bg-[#151d30] p-6">
       {/* Sidebar with  */}
 
-      <aside className="bg-[#1b233a] text-white w-64 h-[90vh] flex flex-col justify-between rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+      <aside className="bg-[#1b233a] text-white w-64 h-[90vh] flex flex-col justify-between rounded-2xl shadow-xl overflow-hidden border border-[#3c4661]">
         <div>
           <div className="flex items-center justify-center p-6">
             <img
